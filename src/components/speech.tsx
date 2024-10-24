@@ -1,6 +1,10 @@
+import { useEffect, useState } from "react";
 import SpeechRecognition, {useSpeechRecognition} from "react-speech-recognition"
 
 function Speech() {
+  
+  const [isDivVisible, setIsDivVisible] = useState(false); 
+
     const {
         transcript,
         listening,
@@ -12,6 +16,20 @@ function Speech() {
     const startListening = () => {
         SpeechRecognition.startListening({ continuous: true, language: 'en-IN' });
     };
+
+    useEffect(() => {
+      const lowerTranscript = transcript.toLowerCase(); // Normalizar el texto
+
+      if (lowerTranscript.includes("turn on")) {
+          setIsDivVisible(true); // Mostrar el div
+          resetTranscript(); // Limpiar para evitar reactivaciones
+      } else if (lowerTranscript.includes("turn off")) {
+          setIsDivVisible(false); // Ocultar el div
+          resetTranscript();
+      }
+  }, [transcript, resetTranscript]);
+
+    console.log(transcript);
 
   return (
     <>
@@ -26,6 +44,12 @@ function Speech() {
                 <button onClick={startListening}>Start</button>
                 <button onClick={SpeechRecognition.stopListening}>Stop</button>
                 <button onClick={resetTranscript}>Reset</button>
+
+                {isDivVisible && (
+                <div style={{ padding: '20px', backgroundColor: 'lightgreen', marginTop: '10px' }}>
+                    <h3>¡Este es el div que puedes mostrar u ocultar con comandos de voz!</h3>
+                </div>
+                )}
         </div>
     </>
   )
