@@ -3,7 +3,7 @@ import SpeechRecognition, {useSpeechRecognition} from "react-speech-recognition"
 
 function Speech() {
   
-  const [isDivVisible, setIsDivVisible] = useState(false); 
+  const [isFirstDivVisible, setIsFirstDivVisible] = useState(false); 
   const [isSecondDivVisible, setIsSecondDivVisible] = useState(false); 
 
     const {
@@ -21,31 +21,30 @@ function Speech() {
     useEffect(() => {
       const lowerTranscript = transcript.toLowerCase(); // Normalizar el texto
 
-      const activateKeywords: string[]  = ["kitchen on", "kitchen enable"];
-      const deactivateKeywords: string[]  = ["kitchen off", "kitchen disable"];
-      const activateKeywordsSecondDiv: string[]  = ["living room on", "living room enable"];
-      const deactivateKeywordsSecondDiv: string[]  = ["living room off","living room disable"];
+     // Definimos un mapeo de palabras clave a acciones
+     const keywordActions = [
+      {
+        activate: ["kitchen on", "kitchen enable"],
+        deactivate: ["kitchen off", "kitchen disable"],
+        setVisible: setIsFirstDivVisible,
+      },
+      {
+        activate: ["living room on", "living room enable"],
+        deactivate: ["living room off", "living room disable"],
+        setVisible: setIsSecondDivVisible,
+      },
+    ];
 
-      const containsKeyword =  (keywords: string[]): boolean => {
-        return keywords.some(keyword => lowerTranscript.includes(keyword));
-    };
-
-    if (containsKeyword(activateKeywords)) {
-        setIsDivVisible(true); // Mostrar el div
-        resetTranscript(); // Limpiar para evitar reactivaciones
-    } else if (containsKeyword(deactivateKeywords)) {
-        setIsDivVisible(false); // Ocultar el div
+    // Iteramos sobre las acciones de las palabras clave
+    keywordActions.forEach(({ activate, deactivate, setVisible }) => {
+      if (activate.some(keyword => lowerTranscript.includes(keyword))) {
+        setVisible(true);
         resetTranscript();
-    }
-
-    if (containsKeyword(activateKeywordsSecondDiv)) {
-      setIsSecondDivVisible(true); // Mostrar el div
-      resetTranscript(); // Limpiar para evitar reactivaciones
-  } else if (containsKeyword(deactivateKeywordsSecondDiv)) {
-    setIsSecondDivVisible(false); // Ocultar el div
-      resetTranscript();
-  }
-
+      } else if (deactivate.some(keyword => lowerTranscript.includes(keyword))) {
+        setVisible(false);
+        resetTranscript();
+      }
+    });
   }, [transcript, resetTranscript]);
 
     console.log(transcript);
@@ -64,7 +63,7 @@ function Speech() {
                 <button onClick={SpeechRecognition.stopListening}>Stop</button>
                 <button onClick={resetTranscript}>Reset</button>
 
-                {isDivVisible && (
+                {isFirstDivVisible && (
                 <div style={{ padding: '20px', backgroundColor: 'lightgreen', marginTop: '10px' }}>
                     <h3>LIGHT 01</h3>
                 </div>
