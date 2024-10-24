@@ -5,13 +5,15 @@ function Speech() {
   
   const [isFirstDivVisible, setIsFirstDivVisible] = useState(false); 
   const [isSecondDivVisible, setIsSecondDivVisible] = useState(false); 
+  const [isMicrophoneAvailable, setIsMicrophoneAvailable] = useState(false);
+
 
     const {
         transcript,
         listening,
         resetTranscript,
         browserSupportsSpeechRecognition,
-        isMicrophoneAvailable,
+        //isMicrophoneAvailable,
     } = useSpeechRecognition();
 
     const startListening = () => {
@@ -49,6 +51,29 @@ function Speech() {
 
     console.log(transcript);
 
+
+
+// funcion para checkear si el mic esta conectado o NO. 
+//Luego lo llamo desde un useeffect que poolea cada 5 seg.
+
+    const checkMicrophoneAvailability = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        setIsMicrophoneAvailable(true);
+        // Detener el stream para liberar el micrófono
+        stream.getTracks().forEach(track => track.stop());
+      } catch (error) {
+        setIsMicrophoneAvailable(false);
+      }
+    };
+  
+    useEffect(() => {
+      checkMicrophoneAvailability();
+      const interval = setInterval(checkMicrophoneAvailability, 5000); // cada 5 segundos
+    return () => clearInterval(interval);
+  
+    }, []);
+
   return (
     <>
       <div>
@@ -56,6 +81,7 @@ function Speech() {
 
                 {!browserSupportsSpeechRecognition && <p>Browser does not support speech recognition.</p>}
                 {!isMicrophoneAvailable && <p>Microphone is not available.</p>}
+                {isMicrophoneAvailable && <p>Microphone is available.</p>}
 
                 {listening ? <p>Listening...</p> : <p>Click "Start" to begin listening.</p>}
                 
