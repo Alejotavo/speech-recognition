@@ -14,14 +14,14 @@ function Speech() {
     } = useSpeechRecognition();
 
     const startListening = () => {
-        SpeechRecognition.startListening({ continuous: true });
+        SpeechRecognition.startListening({ continuous: true, language: 'en-IN' });
     };
 
     useEffect(() => {
       const lowerTranscript = transcript.toLowerCase(); // Normalizar el texto
 
-      const activateKeywords: string[]  = ["turn on", "on", "active", "encendido"];
-      const deactivateKeywords: string[]  = ["turn off", "off", "inactive", "apagado"];
+      const activateKeywords: string[]  = ["on", "enable"];
+      const deactivateKeywords: string[]  = ["off", "disable"];
 
       const containsKeyword =  (keywords: string[]): boolean => {
         return keywords.some(keyword => lowerTranscript.includes(keyword));
@@ -53,11 +53,9 @@ function Speech() {
                 <button onClick={resetTranscript}>Reset</button>
 
                 {isDivVisible && (
-                  <>
                 <div style={{ padding: '20px', backgroundColor: 'lightgreen', marginTop: '10px' }}>
                     <h3>¡Este es el div que puedes mostrar u ocultar con comandos de voz!</h3>
                 </div>
-                </>
                 )}
         </div>
     </>
