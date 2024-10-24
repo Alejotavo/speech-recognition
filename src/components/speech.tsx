@@ -4,6 +4,7 @@ import SpeechRecognition, {useSpeechRecognition} from "react-speech-recognition"
 function Speech() {
   
   const [isDivVisible, setIsDivVisible] = useState(false); 
+  const [isSecondDivVisible, setIsSecondDivVisible] = useState(false); 
 
     const {
         transcript,
@@ -20,8 +21,10 @@ function Speech() {
     useEffect(() => {
       const lowerTranscript = transcript.toLowerCase(); // Normalizar el texto
 
-      const activateKeywords: string[]  = ["on", "enable"];
-      const deactivateKeywords: string[]  = ["off", "disable"];
+      const activateKeywords: string[]  = ["kitchen on", "kitchen enable"];
+      const deactivateKeywords: string[]  = ["kitchen off", "kitchen disable"];
+      const activateKeywordsSecondDiv: string[]  = ["living room on", "living room enable"];
+      const deactivateKeywordsSecondDiv: string[]  = ["living room off","living room disable"];
 
       const containsKeyword =  (keywords: string[]): boolean => {
         return keywords.some(keyword => lowerTranscript.includes(keyword));
@@ -34,6 +37,15 @@ function Speech() {
         setIsDivVisible(false); // Ocultar el div
         resetTranscript();
     }
+
+    if (containsKeyword(activateKeywordsSecondDiv)) {
+      setIsSecondDivVisible(true); // Mostrar el div
+      resetTranscript(); // Limpiar para evitar reactivaciones
+  } else if (containsKeyword(deactivateKeywordsSecondDiv)) {
+    setIsSecondDivVisible(false); // Ocultar el div
+      resetTranscript();
+  }
+
   }, [transcript, resetTranscript]);
 
     console.log(transcript);
@@ -54,9 +66,14 @@ function Speech() {
 
                 {isDivVisible && (
                 <div style={{ padding: '20px', backgroundColor: 'lightgreen', marginTop: '10px' }}>
-                    <h3>¡Este es el div que puedes mostrar u ocultar con comandos de voz!</h3>
+                    <h3>LIGHT 01</h3>
                 </div>
-                )}
+              )}
+                {isSecondDivVisible && (
+                <div style={{ padding: '20px', backgroundColor: 'lightblue', marginTop: '10px' }}>
+                    <h3>LIGHT 02</h3>
+                </div>
+              )}
         </div>
     </>
   )
