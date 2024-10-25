@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import SpeechRecognition, {useSpeechRecognition} from "react-speech-recognition"
+import Axonometric from "./axonometric/axonometric";
+import "./speetch.scss"
 
 function Speech() {
   
@@ -76,30 +78,24 @@ function Speech() {
 
   return (
     <>
-      <div>
-                <p>{transcript}</p>
-
-                {!browserSupportsSpeechRecognition && <p>Browser does not support speech recognition.</p>}
-                {!isMicrophoneAvailable && <p>Microphone is not available.</p>}
-                {isMicrophoneAvailable && <p>Microphone is available.</p>}
-
-                {listening ? <p>Listening...</p> : <p>Click "Start" to begin listening.</p>}
-                
-                <button onClick={startListening}>Start</button>
-                <button onClick={SpeechRecognition.stopListening}>Stop</button>
-                <button onClick={resetTranscript}>Reset</button>
-
-                {isFirstDivVisible && (
-                <div style={{ padding: '20px', backgroundColor: 'lightgreen', marginTop: '10px' }}>
-                    <h3>LIGHT 01</h3>
-                </div>
-              )}
-                {isSecondDivVisible && (
-                <div style={{ padding: '20px', backgroundColor: 'lightblue', marginTop: '10px' }}>
-                    <h3>LIGHT 02</h3>
-                </div>
-              )}
-        </div>
+    <div className="row">
+      <div className="column">
+        <p>{transcript}</p>
+        {!browserSupportsSpeechRecognition && <p>Browser does not support speech recognition.</p>}
+        {!isMicrophoneAvailable && <p>Microphone is not available.</p>}
+        {isMicrophoneAvailable && <p>Microphone is available.</p>}
+        {listening ? <p>Listening...</p> : <p>Click "Start" to begin listening.</p>}
+        <button onClick={startListening}>Start</button>
+        <button onClick={SpeechRecognition.stopListening}>Stop</button>
+        <button onClick={resetTranscript}>Reset</button>
+      </div>
+      <div className="column">
+        <Axonometric 
+            kitchenLight={isFirstDivVisible} 
+            livingRoomLight={isSecondDivVisible}  
+            />
+      </div>
+    </div>
     </>
   )
 }
