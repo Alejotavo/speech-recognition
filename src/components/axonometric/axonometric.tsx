@@ -1,4 +1,8 @@
 
+const kitchen = "/imgs/kitchen.png";
+import "./axonometrix.scss"
+const background = "/imgs/background.png";
+
 interface ChildProps {
     kitchenLight: boolean;
     livingRoomLight: boolean;
@@ -9,16 +13,15 @@ interface ChildProps {
 
   return (
     <>
-       {kitchenLight && (
-          <div style={{ padding: '20px', backgroundColor: 'lightgreen', marginTop: '10px' }}>
-              <h3>LIGHT 01</h3>
-          </div>
+        {kitchenLight && (
+        <img className="kitchen" src={kitchen}/>
         )}
         {livingRoomLight && (
         <div style={{ padding: '20px', backgroundColor: 'lightblue', marginTop: '10px' }}>
             <h3>LIGHT 02</h3>
         </div>
         )}
+        <img className="background" src={background}></img>
     </>
   )
 }
