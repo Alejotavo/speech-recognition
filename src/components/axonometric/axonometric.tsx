@@ -16,18 +16,25 @@ interface ChildProps {
     useEffect(() => {
       if (!response) return;
 
+
       const normalizedResponse = response.trim();
 
       console.log("Response desde child component:", response);
-
-      setLivingLight(normalizedResponse === "LIVING_ON");
-      setKitchenLight(normalizedResponse === "COCINA_ON");
-
-      console.log("Kitchen Light:", kitchenLight);
-      console.log("Living Light:", livingLight); 
-  
+    
+      // Mapa de acciones para actualizar los estados de las luces
+      const actions = {
+        "LIVING_ON": () => setLivingLight(true),
+        "LIVING_OFF": () => setLivingLight(false),
+        "KITCHEN_ON": () => setKitchenLight(true),
+        "KITCHEN_OFF": () => setKitchenLight(false),
+      };
+    
+      // Ejecuta la acción correspondiente al response, sin afectar el otro estado
+      if (normalizedResponse in actions) {
+        actions[normalizedResponse as keyof typeof actions]();
+      }
+    
     }, [response]);
-
     
   return (
     <>
