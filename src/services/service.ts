@@ -19,7 +19,6 @@ export const postData = async (requestData: {
 
     try {
         const response = await axios.post(API_URL, requestData);
-        console.log("Response Server Data:", response.data);
         return response.data; // Retorna la respuesta de la API
     } catch (error) {
         if (axios.isAxiosError(error)) {

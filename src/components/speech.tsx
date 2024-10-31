@@ -8,9 +8,8 @@ import { postData } from "../services/service";
 
 function Speech() {
   
-  const [isFirstDivVisible, setIsFirstDivVisible] = useState(false); 
-  const [isSecondDivVisible, setIsSecondDivVisible] = useState(false); 
   const [isMicrophoneAvailable, setIsMicrophoneAvailable] = useState(false);
+  const [apiResponse, setApiResponse] = useState(null);
 
   const [isFinal, setIsFinal] = useState(false);
   const [prompt, setPrompt] = useState("");
@@ -53,7 +52,10 @@ useEffect(() => {
     //const lowerTranscript = transcript.toLowerCase(); // Normalizar el texto
     try {
 
-      const fullPrompt = `tengo un sistema de domotica en el que tengo definido dos ambientes LIVING y COCINA las cuales tienen luces que se pueden encender o apagar mediante un comando de voz, las respuestas posibles van a ser LIVING_ON, LIVING_OFF, COCINA_ON, COCINA_OFF. Cual seria la respuesta (entre las definidas anteriormente) si comando de voz de entrada es: '${prompt}'? recuerda solo responder con una palabra (las respuestas posibles)`;
+      const fullPrompt = `tengo un sistema de domotica en el que tengo definido dos ambientes LIVING y COCINA 
+      las cuales tienen luces que se pueden encender o apagar mediante un comando de voz, las respuestas posibles 
+      van a ser LIVING_ON, LIVING_OFF, COCINA_ON, COCINA_OFF. Cual seria la respuesta (entre las definidas anteriormente) 
+      si comando de voz de entrada es: '${prompt}'? recuerda solo responder con una palabra (las respuestas posibles)`;
 
         const data = {
             model: "gemma2:2b", // Modelo utilizado
@@ -61,14 +63,14 @@ useEffect(() => {
             stream: false,
         };
   
-        console.log("Enviando data:", data); // Verifica que la data es correcta
-  
         const apiResponse = await postData(data);
         resetTranscript();
+        
         console.log("API Response:", apiResponse); // Revisa el resultado
-
+        console.log("API Response:", apiResponse.response);
         resetTranscript();
         setPrompt(""); // Resetea el prompt después de enviar
+        setApiResponse(apiResponse.response);
         
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -82,23 +84,6 @@ useEffect(() => {
   sendTranscriptToAPI();
 
 }, [isFinal, prompt, resetTranscript]);
-
-
-       
- /*        // Definimos un mapeo de palabras clave a acciones
-        const keywordActions = [
-          {
-            activate: ["kitchen on", "kitchen enable"],
-            deactivate: ["kitchen off", "kitchen disable"],
-            setVisible: setIsFirstDivVisible,
-          },
-          {
-            activate: ["living room on", "living room enable"],
-            deactivate: ["living room off", "living room disable"],
-            setVisible: setIsSecondDivVisible,
-          },
-        ];
-      } */
 
 
 // funcion para checkear si el mic esta conectado o NO. 
@@ -137,8 +122,7 @@ useEffect(() => {
       </div>
       <div className="column">
         <Axonometric 
-            kitchenLight={isFirstDivVisible} 
-            livingRoomLight={isSecondDivVisible}  
+            response={apiResponse}
             />
       </div>
     </div>
