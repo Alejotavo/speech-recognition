@@ -4,7 +4,7 @@ const bedRoom = "/imgs/bed_room.png";
 const livingRoom = "/imgs/living_room.png";
 import { useEffect, useState } from "react";
 import "./axonometrix.scss"
-const background = "/imgs/background.png";
+const background = "/imgs/axonometric.png";
 
 interface ChildProps {
   response: "LIVING_ON" | "LIVING_OFF" | "KITCHEN_ON" | "KITCHEN_OFF" | "BEDROOM_ON"| "BEDROOM_OFF" | null;
