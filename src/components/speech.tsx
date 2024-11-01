@@ -52,7 +52,7 @@ useEffect(() => {
     //const lowerTranscript = transcript.toLowerCase(); // Normalizar el texto
     try {
 
-      const fullPrompt = `I have a home automation system in which I have defined two environments, LIVING and KITCHEN, each of which has lights that can be turned on or off via a voice command. The possible responses will be LIVING_ON, LIVING_OFF, KITCHEN_ON, KITCHEN_OFF. What would the response be (among those defined above) if the input voice command is: '${prompt}'? Remember to respond with only one word (the possible responses)."`;
+      const fullPrompt = `I have a home automation system in which I have defined two environments, LIVING, KITCHEN, BEDROOM, each of which has lights that can be turned on or off via a voice command. The possible responses will be LIVING_ON, LIVING_OFF, KITCHEN_ON, KITCHEN_OFF, BEDROOM_ON, BEDROOM_OFF. What would the response be (among those defined above) if the input voice command is: '${prompt}'? Remember to respond with only one word (the possible responses)."`;
 
         const data = {
             model: "gemma2:2b", // Modelo utilizado

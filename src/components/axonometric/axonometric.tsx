@@ -1,17 +1,20 @@
 
 const kitchen = "/imgs/kitchen.png";
+const bedRoom = "/imgs/bed_room.png";
+const livingRoom = "/imgs/living_room.png";
 import { useEffect, useState } from "react";
 import "./axonometrix.scss"
 const background = "/imgs/background.png";
 
 interface ChildProps {
-  response: "LIVING_ON" | "LIVING_OFF" | "COCINA_ON" | "COCINA_OFF" | null;
+  response: "LIVING_ON" | "LIVING_OFF" | "KITCHEN_ON" | "KITCHEN_OFF" | "BEDROOM_ON"| "BEDROOM_OFF" | null;
   }
 
   const Axonometric = ({ response }: ChildProps) =>{
 
     const [kitchenLight, setKitchenLight] = useState(false);
     const [livingLight, setLivingLight] = useState(false);
+    const [bedRoomLight, setBedRoomLight] = useState(false);
 
     useEffect(() => {
       if (!response) return;
@@ -27,6 +30,8 @@ interface ChildProps {
         "LIVING_OFF": () => setLivingLight(false),
         "KITCHEN_ON": () => setKitchenLight(true),
         "KITCHEN_OFF": () => setKitchenLight(false),
+        "BEDROOM_ON": () => setBedRoomLight(true),
+        "BEDROOM_OFF": () => setBedRoomLight(false),
       };
     
       // Ejecuta la acción correspondiente al response, sin afectar el otro estado
@@ -39,12 +44,13 @@ interface ChildProps {
   return (
     <>
         {kitchenLight && (
-        <img className="kitchen" src={kitchen}/>
+        <img className="sprite" src={kitchen}/>
         )}
-        {livingLight ===true && (
-        <div style={{ padding: '20px', backgroundColor: 'lightblue', marginTop: '10px' }}>
-            <h3>LIGHT 02</h3>
-        </div>
+        {livingLight && (
+         <img className="sprite" src={livingRoom}/>
+        )}
+        {bedRoomLight && (
+         <img className="sprite" src={bedRoom}/>
         )}
         <img className="background" src={background}></img>
     </>
