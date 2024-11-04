@@ -2,12 +2,13 @@
 const kitchen = "/imgs/kitchen.png";
 const bedRoom = "/imgs/bed_room.png";
 const livingRoom = "/imgs/living_room.png";
+const garden = "/imgs/garden.png";
 import { useEffect, useState } from "react";
 import "./axonometrix.scss"
 const background = "/imgs/axonometric.png";
 
 interface ChildProps {
-  response: "LIVING_ON" | "LIVING_OFF" | "KITCHEN_ON" | "KITCHEN_OFF" | "BEDROOM_ON"| "BEDROOM_OFF" | null;
+  response: "LIVING_ON" | "LIVING_OFF" | "KITCHEN_ON" | "KITCHEN_OFF" | "BEDROOM_ON"| "BEDROOM_OFF" | "GARDEN_ON"| "GARDEN_OFF" | null;
   }
 
   const Axonometric = ({ response }: ChildProps) =>{
@@ -15,14 +16,12 @@ interface ChildProps {
     const [kitchenLight, setKitchenLight] = useState(false);
     const [livingLight, setLivingLight] = useState(false);
     const [bedRoomLight, setBedRoomLight] = useState(false);
+    const [gardenLight, setGardenLight] = useState(false);
 
     useEffect(() => {
       if (!response) return;
 
-
       const normalizedResponse = response.trim();
-
-      console.log("Response desde child component:", response);
     
       // Mapa de acciones para actualizar los estados de las luces
       const actions = {
@@ -32,6 +31,8 @@ interface ChildProps {
         "KITCHEN_OFF": () => setKitchenLight(false),
         "BEDROOM_ON": () => setBedRoomLight(true),
         "BEDROOM_OFF": () => setBedRoomLight(false),
+        "GARDEN_ON": () => setGardenLight(true),
+        "GARDEN_OFF": () => setGardenLight(false),
       };
     
       // Ejecuta la acción correspondiente al response, sin afectar el otro estado
@@ -51,6 +52,9 @@ interface ChildProps {
         )}
         {bedRoomLight && (
          <img className="sprite" src={bedRoom}/>
+        )}
+        {gardenLight && (
+         <img className="sprite" src={garden}/>
         )}
         <img className="background" src={background}></img>
     </>
