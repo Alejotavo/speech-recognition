@@ -8,7 +8,7 @@ import "./axonometrix.scss"
 const background = "/imgs/axonometric.png";
 
 interface ChildProps {
-  response: "LIVING_ON" | "LIVING_OFF" | "KITCHEN_ON" | "KITCHEN_OFF" | "BEDROOM_ON"| "BEDROOM_OFF" | "GARDEN_ON"| "GARDEN_OFF" | null;
+  response: "LIVING_ON" | "LIVING_OFF" | "KITCHEN_ON" | "KITCHEN_OFF" | "BEDROOM_ON"| "BEDROOM_OFF" | "GARDEN_ON"| "GARDEN_OFF" | "ALL_ON"| "ALL_OFF" | null;
   }
 
   const Axonometric = ({ response }: ChildProps) =>{
@@ -17,12 +17,13 @@ interface ChildProps {
     const [livingLight, setLivingLight] = useState(false);
     const [bedRoomLight, setBedRoomLight] = useState(false);
     const [gardenLight, setGardenLight] = useState(false);
+    const [lights, setLights] = useState(false);
 
     useEffect(() => {
       if (!response) return;
 
       const normalizedResponse = response.trim();
-    
+    console.log("respuesta desde el hijo", normalizedResponse);
       // Mapa de acciones para actualizar los estados de las luces
       const actions = {
         "LIVING_ON": () => setLivingLight(true),
@@ -33,6 +34,18 @@ interface ChildProps {
         "BEDROOM_OFF": () => setBedRoomLight(false),
         "GARDEN_ON": () => setGardenLight(true),
         "GARDEN_OFF": () => setGardenLight(false),
+        "ALL_ON": () => {
+            setKitchenLight(true);
+            setLivingLight(true);
+            setBedRoomLight(true);
+            setGardenLight(true);
+        },
+        "ALL_OFF": () => {
+            setKitchenLight(false);
+            setLivingLight(false);
+            setBedRoomLight(false);
+            setGardenLight(false);
+        },
       };
     
       // Ejecuta la acción correspondiente al response, sin afectar el otro estado
@@ -44,19 +57,19 @@ interface ChildProps {
     
   return (
     <>
-        {kitchenLight && (
-        <img className="sprite" src={kitchen}/>
+        {(lights || kitchenLight) && (
+            <img className="sprite" src={kitchen} />
         )}
-        {livingLight && (
-         <img className="sprite" src={livingRoom}/>
+        {(lights || livingLight) && (
+            <img className="sprite" src={livingRoom} />
         )}
-        {bedRoomLight && (
-         <img className="sprite" src={bedRoom}/>
+        {(lights || bedRoomLight) && (
+            <img className="sprite" src={bedRoom} />
         )}
-        {gardenLight && (
-         <img className="sprite" src={garden}/>
+        {(lights || gardenLight) && (
+            <img className="sprite" src={garden} />
         )}
-        <img className="background" src={background}></img>
+        <img className="background" src={background} />
     </>
   )
 }
