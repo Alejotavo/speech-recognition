@@ -17,7 +17,6 @@ interface ChildProps {
     const [livingLight, setLivingLight] = useState(false);
     const [bedRoomLight, setBedRoomLight] = useState(false);
     const [gardenLight, setGardenLight] = useState(false);
-    const [lights, setLights] = useState(false);
 
     useEffect(() => {
       if (!response) return;
@@ -57,16 +56,16 @@ interface ChildProps {
     
   return (
     <>
-        {(lights || kitchenLight) && (
+        {( kitchenLight) && (
             <img className="sprite" src={kitchen} />
         )}
-        {(lights || livingLight) && (
+        {( livingLight) && (
             <img className="sprite" src={livingRoom} />
         )}
-        {(lights || bedRoomLight) && (
+        {( bedRoomLight) && (
             <img className="sprite" src={bedRoom} />
         )}
-        {(lights || gardenLight) && (
+        {( gardenLight) && (
             <img className="sprite" src={garden} />
         )}
         <img className="background" src={background} />
