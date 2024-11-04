@@ -8,7 +8,7 @@ import "./axonometrix.scss"
 const background = "/imgs/axonometric.png";
 
 interface ChildProps {
-  response: "LIVING_ON" | "LIVING_OFF" | "KITCHEN_ON" | "KITCHEN_OFF" | "BEDROOM_ON"| "BEDROOM_OFF" | "GARDEN_ON"| "GARDEN_OFF" | "ALL_ON"| "ALL_OFF" | null;
+  response: string | null;
   }
 
   const Axonometric = ({ response }: ChildProps) =>{
@@ -21,7 +21,7 @@ interface ChildProps {
     useEffect(() => {
       if (!response) return;
 
-      const normalizedResponse = response.trim();
+      const normalizedResponse =  response.trim().split(/\s+/);
     console.log("respuesta desde el hijo", normalizedResponse);
       // Mapa de acciones para actualizar los estados de las luces
       const actions = {
@@ -47,10 +47,13 @@ interface ChildProps {
         },
       };
     
-      // Ejecuta la acción correspondiente al response, sin afectar el otro estado
-      if (normalizedResponse in actions) {
-        actions[normalizedResponse as keyof typeof actions]();
+    // Procesa cada comando y ejecuta la acción correspondiente
+    normalizedResponse.forEach((command) => {
+      const normalizedCommand = command.trim().toUpperCase();
+      if (normalizedCommand in actions) {
+        actions[normalizedCommand as keyof typeof actions]();
       }
+    });
     
     }, [response]);
     
