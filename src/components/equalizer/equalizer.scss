@@ -1,0 +1,26 @@
+.equalizer {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.bar {
+    width: 10px;
+    height: 40px;
+    background: linear-gradient(to top, #3faeff, #ff1beb, #3faeff);
+    animation: bounce 1s infinite ease-in-out;
+    animation-delay: calc(0.1s * var(--i));
+}
+
+/* Genera el movimiento de las barras */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: scaleY(0.3);
+    }
+
+    50% {
+        transform: scaleY(1);
+    }
+}

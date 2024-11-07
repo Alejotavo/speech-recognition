@@ -5,6 +5,10 @@ import "./speetch.scss"
 import axios from "axios";
 import { postData } from "../services/service";
 
+import micOn from '/imgs/mic.svg';
+import micOff from '/imgs/mic-off.svg';
+import Equalizer from "./equalizer/equalizer";
+
 
 function Speech() {
   
@@ -108,14 +112,23 @@ useEffect(() => {
     <>
     <div className="row">
       <div className="column">
-        <p>{transcript}</p>
         {!browserSupportsSpeechRecognition && <p>Browser does not support speech recognition.</p>}
-        {!isMicrophoneAvailable && <p>Microphone is not available.</p>}
-        {isMicrophoneAvailable && <p>Microphone is available.</p>}
-        {listening ? <p>Listening...</p> : <p>Click "Start" to begin listening.</p>}
+        {!isMicrophoneAvailable && <p> Microphone is not conected.</p>}
+        {isMicrophoneAvailable && <p> Microphone is conected.</p>}
+        {listening ? 
+          <> 
+            <img src={micOn}/> 
+            <Equalizer />
+          </> : 
+          <>
+            <img src={micOff}/>
+            <p>Click "Start" to begin listening.</p>
+            </>
+        }
         <button onClick={startListening}>Start</button>
         <button onClick={SpeechRecognition.stopListening}>Stop</button>
         <button onClick={resetTranscript}>Reset</button>
+        <p>{transcript}</p>
       </div>
       <div className="column">
         <Axonometric 
