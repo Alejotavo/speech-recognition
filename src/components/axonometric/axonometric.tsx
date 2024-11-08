@@ -22,7 +22,7 @@ interface ChildProps {
       if (!response) return;
 
       const normalizedResponse =  response.trim().split(/\s+/);
-    console.log("respuesta desde el hijo", normalizedResponse);
+    console.log("RESPONSE CONVERTIDO EN ARRAY DE PALABRAS", normalizedResponse);
       // Mapa de acciones para actualizar los estados de las luces
       const actions = {
         "LIVING_ON": () => setLivingLight(true),
@@ -51,6 +51,7 @@ interface ChildProps {
     normalizedResponse.forEach((command) => {
       const normalizedCommand = command.trim().toUpperCase();
       if (normalizedCommand in actions) {
+        console.log("resultado encontardo", normalizedCommand)
         actions[normalizedCommand as keyof typeof actions]();
       }
     });
