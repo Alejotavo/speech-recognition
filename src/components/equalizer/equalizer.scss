@@ -2,10 +2,11 @@
     display: flex;
     justify-content: center;
     gap: 5px;
+    padding: 1rem 0;
 }
 
 .bar {
-    width: 10px;
+    width: 5px;
     height: 40px;
     background: linear-gradient(to top, #3faeff, #ff1beb, #3faeff);
     animation: bounce 1s infinite ease-in-out;
